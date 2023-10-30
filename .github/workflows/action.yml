@@ -1,0 +1,12 @@
+name: Test workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  print-readme-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print README.md
+        run: cat README.md
