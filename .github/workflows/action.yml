@@ -1,0 +1,28 @@
+name: Test workflow
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  create-important-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: important-document
+          path: README.md
+
+  print-important-job:
+    runs-on: ubuntu-latest
+    needs: create-important-job
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test')
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: important-document
+      - name: Print README.md
+        run: cat README.md
