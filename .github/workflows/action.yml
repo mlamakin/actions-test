@@ -1,0 +1,25 @@
+name: Test workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-important-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: important-document
+          path: README.md
+
+  print-important-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: important-document
+      - name: Print README.md
+        run: cat README.md
